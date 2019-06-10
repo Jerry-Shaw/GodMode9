@@ -97,6 +97,22 @@ void Paint9_DrawBrush(u16 px, u16 py, u32 color_fg, u32 color_bg, u32 id) {
     }
 }
 
+// Bresenham algorithm, see here:
+// https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C
+void Paint9_DrawLine(u16 px0, u16 py0, u16 px1, u16 py1, u32 color_fg, u32 id) {
+    const int dx = abs((s16) px1-px0), sx = (px0 < px1) ? 1 : -1;
+    const int dy = abs((s16) py1-py0), sy = (py0 < py1) ? 1 : -1; 
+    int err = ((dx > dy) ? dx : -dy) / 2;
+
+    while (true) {
+        Paint9_DrawBrush(px0, py0, color_fg, COLOR_TRANSPARENT, id);
+        if ((px0 == px1) && (py0 == py1)) break;
+        int e2 = err;
+        if (e2 >-dx) { err -= dy; px0 += sx; }
+        if (e2 < dy) { err += dx; py0 += sy; }
+    }
+}
+
 u32 Paint9(void) {
     static u32 brush_bg = RGB(0x20, 0x20, 0x20);
     static u32 outline_bg = RGB(0x18, 0x18, 0x18);
@@ -141,21 +157,27 @@ u32 Paint9(void) {
 
         u16 tx, ty;
         u32 tb_id;
+        u16 tx_prev = 0;
+        u16 ty_prev = 0;
+        u32 tb_id_prev = 0;
         while (HID_ReadTouchState(&tx, &ty)) {
             DrawStringF(TOP_SCREEN, 16, 16, COLOR_STD_FONT, COLOR_STD_BG,
                 "Touchscreen coordinates (%d/%d)    ", tx, ty);
             TouchBoxGet(&tb_id, tx, ty, paint9_boxes, 8);
             if (tb_id == P9BOX_CANVAS) {
-                Paint9_DrawBrush(tx, ty, color, COLOR_TRANSPARENT, brush_id);
-                continue;
+                if (tb_id_prev == P9BOX_CANVAS)
+                    Paint9_DrawLine(tx_prev, ty_prev, tx, ty, color, brush_id);
+                else Paint9_DrawBrush(tx, ty, color, COLOR_TRANSPARENT, brush_id);
             } else if (tb_id == P9BOX_PICKER) {
                 color = GetColor(BOT_SCREEN, tx, ty);
             } else if (tb_id >= P9BOX_BRUSH_N) {
                 brush_id = tb_id - P9BOX_BRUSH_N;
-            } else {
-                continue;
             }
-            Paint9_DrawBrush(x_cb, y_cb, color, brush_bg, brush_id);
+            if ((tb_id == P9BOX_PICKER) || (tb_id >= P9BOX_BRUSH_N))
+                Paint9_DrawBrush(x_cb, y_cb, color, brush_bg, brush_id);
+            tb_id_prev = tb_id;
+            tx_prev = tx;
+            ty_prev = ty;
         }
     }
 
