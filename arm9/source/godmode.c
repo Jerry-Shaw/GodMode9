@@ -1998,7 +1998,7 @@ u32 HomeMoreMenu(char* current_path) {
     else if (user_select == bright) { // brightness config dialogue
         s32 old_brightness, new_brightness;
         if (!LoadSupportFile("gm9bright.cfg", &old_brightness, 4))
-            old_brightness = -1; // auto by default
+            old_brightness = BRIGHTNESS_AUTOMATIC; // auto by default
         new_brightness = ShowBrightnessConfig(old_brightness);
         if (old_brightness != new_brightness)
             SaveSupportFile("gm9bright.cfg", &new_brightness, 4);
