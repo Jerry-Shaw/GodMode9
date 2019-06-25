@@ -2075,6 +2075,7 @@ u32 GodMode(int entrypoint) {
     AutoEmuNandBase(true);
     InitNandCrypto(true); // (entrypoint != ENTRY_B9S);
     InitExtFS();
+    InitVCartDrive();
     CalibrateTouchFromFlash();
 
     // brightness from file?
