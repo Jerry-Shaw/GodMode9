@@ -2075,7 +2075,6 @@ u32 GodMode(int entrypoint) {
     AutoEmuNandBase(true);
     InitNandCrypto(true); // (entrypoint != ENTRY_B9S);
     InitExtFS();
-    InitVCartDrive();
     CalibrateTouchFromFlash();
 
     // brightness from file?
@@ -2178,6 +2177,7 @@ u32 GodMode(int entrypoint) {
             return exit_mode;
         }
         
+        InitVCartDrive();
         GetDirContents(current_dir, "");
         clipboard->n_entries = 0;
         memset(panedata, 0x00, N_PANES * sizeof(PaneData));
