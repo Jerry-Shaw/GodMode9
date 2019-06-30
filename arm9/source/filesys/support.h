@@ -3,8 +3,8 @@
 #include "common.h"
 
 // scripts / payloads dir names
-#define SCRIPTS_DIR     "scripts"
-#define PAYLOADS_DIR    "payloads"
+#define SCRIPTS_DIR     "Scripts"
+#define PAYLOADS_DIR    "Payloads"
 
 bool CheckSupportFile(const char* fname);
 size_t LoadSupportFile(const char* fname, void* buffer, size_t max_len);

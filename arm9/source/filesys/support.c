@@ -3,8 +3,8 @@
 #include "vram0.h"
 #include "vff.h"
 
-#define SUPPORT_FILE_PATHS  "0:/gm9/support", "1:/gm9/support" // we also check the VRAM TAR first
-#define SUPPORT_DIR_PATHS   "V:", "0:/gm9", "1:/gm9"
+#define SUPPORT_FILE_PATHS  "0:/Support", "1:/Support" // we also check the VRAM TAR first
+#define SUPPORT_DIR_PATHS   "V:", "0:", "1:"
 
 
 bool CheckSupportFile(const char* fname)

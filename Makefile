@@ -8,8 +8,8 @@ include Makefile.common
 
 # Base definitions
 export VERSION	:=	$(shell git describe --tags --abbrev=8)
-export DBUILTS	:=	$(shell date +'%Y%m%d%H%M%S')
-export DBUILTL  :=	$(shell date +'%Y-%m-%d %H:%M:%S')
+export DBUILTS	:=	$(shell date +'%Y%m%d%')
+export DBUILTL  :=	$(shell date +'%Y-%m-%d')
 
 export OUTDIR := output
 export RELDIR := release

@@ -140,13 +140,8 @@ u32 SplashInit(const char* modestr) {
     if (modestr) DrawStringF(TOP_SCREEN, SCREEN_WIDTH_TOP - 10 - GetDrawStringWidth(modestr),
         SCREEN_HEIGHT - 10 - GetDrawStringHeight(modestr), COLOR_STD_FONT, COLOR_TRANSPARENT, modestr);
 
-    DrawStringF(BOT_SCREEN, pos_xb, pos_yb, COLOR_STD_FONT, COLOR_STD_BG, "%s\n%*.*s\n%s\n \n \n%s\n%s\n \n%s\n%s",
-        namestr, strnlen(namestr, 64), strnlen(namestr, 64),
-        "------------------------------", "https://github.com/d0k3/GodMode9",
-        "Releases:", "https://github.com/d0k3/GodMode9/releases/", // this won't fit with a 8px width font
-        "Hourlies:", "https://d0k3.secretalgorithm.com/");
     DrawStringF(BOT_SCREEN, pos_xu, pos_yu, COLOR_STD_FONT, COLOR_STD_BG, loadstr);
-    DrawStringF(BOT_SCREEN, pos_xb, pos_yu, COLOR_STD_FONT, COLOR_STD_BG, "built: " DBUILTL);
+    DrawStringF(BOT_SCREEN, pos_xb, pos_yu, COLOR_STD_FONT, COLOR_STD_BG, "Built: " DBUILTL);
 
     free(bitmap);
     return 0;
@@ -2548,7 +2543,7 @@ u32 GodMode(int entrypoint) {
                     }
                 } else if (user_select == scripts) {
                     if (!CheckSupportDir(SCRIPTS_DIR)) {
-                        ShowPrompt(false, "Scripts directory not found.\n(default path: 0:/gm9/" SCRIPTS_DIR ")");
+                        ShowPrompt(false, "Scripts directory not found.\n(default path: 0:/" SCRIPTS_DIR ")");
                     } else if (FileSelectorSupport(loadpath, "HOME scripts... menu.\nSelect script:", SCRIPTS_DIR, "*.gm9")) {
                         ExecuteGM9Script(loadpath);
                         GetDirContents(current_dir, current_path);
@@ -2556,7 +2551,7 @@ u32 GodMode(int entrypoint) {
                         break;
                     }
                 } else if (user_select == payloads) {
-                    if (!CheckSupportDir(PAYLOADS_DIR)) ShowPrompt(false, "Payloads directory not found.\n(default path: 0:/gm9/" PAYLOADS_DIR ")");
+                    if (!CheckSupportDir(PAYLOADS_DIR)) ShowPrompt(false, "Payloads directory not found.\n(default path: 0:/" PAYLOADS_DIR ")");
                     else if (FileSelectorSupport(loadpath, "HOME payloads... menu.\nSelect payload:", PAYLOADS_DIR, "*.firm"))
                         BootFirmHandler(loadpath, false, false);
                 }
